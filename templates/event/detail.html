@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ event.name }}</h1>
+
+<div>{{ event.description }}</div>
+
+<dl>
+  <dt>日時</dt>
+  <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
+
+  <dt>定員</dt>
+  <dd>{{ event.member_limit }}人</dd>
+
+  <dt>会場</dt>
+  <dd>{{ event.place }}({{ event.address }})</dd>
+
+  <dt>ハッシュタグ</dt>
+  <dd>{{ event.hashtag }}</dd>
+
+  <dt>管理者</dt>
+  <dd>{{ event.user.nickname }}</dd>
+</dl>
+
+<div>{{ body }}</div>
+
+{# TOOD: 所有者のみチェック #}
+<a href="{% url event_edit event.id %}">編集</a> |
+<a href="{% url event_delete event.id %}">削除</a>
+{# ENDTODO #}
+
+{% endblock %}

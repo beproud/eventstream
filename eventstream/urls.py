@@ -7,6 +7,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^auth/', include('auth.urls')),
     (r'^admin/', include(admin.site.urls)),
+
+    # Event CRUD
+    (r'^event/', include('event.urls')),
 )
 
 # static files for debug
