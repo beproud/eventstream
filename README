@@ -1,0 +1,29 @@
+eventstream
+========================
+
+このプロジェクトは paster で作られて、buildoutで環境構築ができます。
+
+開発環境を作る
+-------------------------
+
+buildout を bootstrap して、環境を構築する必要があるので、下記の手順にしたがってください::
+
+    python bootstrap.py
+    ./bin/buildout
+
+これで、開発環境ができました。
+
+Django の manage コマンドを実行
+-----------------------------------------
+
+buildout 環境を使った manage コマンドは ./bin に入っているので、
+それを使えば、buildoutの環境も使えます::
+
+    ./bin/manage help 
+
+runserver
+----------------------
+
+manage で、Django の開発ウェブサーバを起動できる::
+
+    ./bin/manage runserver

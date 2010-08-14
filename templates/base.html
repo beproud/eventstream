@@ -1,10 +1,9 @@
-<html>
-<head>
-<title>{% block title %}Event Stream{% endblock %}</title>
-{% block header %}
-{% endblock %}
-</head>
-<body>
+{% extends "html_base.html" %}
+
+{% block title %}Event Stream{% endblock %}
+
+{% block body %}
+{% block header %}{% endblock %}
 {% block content %}{% endblock %}
-</body>
-</html>
+{% block footer %}{% endblock %}
+{% endblock %}

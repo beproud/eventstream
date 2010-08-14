@@ -1,5 +1,23 @@
 syntax: glob
-*.pyc
-*.db
-*.swp
 *.orig
+*.rej
+*~
+*.bak
+*.marks
+*.o
+*.pyc
+*.swp
+*.sqlite
+build
+parts
+eggs
+site_media
+develop-eggs
+bin/
+.installed.cfg
+manage-log.txt
+*.egg-info
+docs/ja/build
+
+syntax: regexp
+.*\#.*\#$

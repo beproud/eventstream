@@ -1,24 +1,30 @@
+#:coding=utf8:
+
 # Django settings for eventstream project.
+import logging
+import posixpath
 import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_PATH = os.path.dirname(__file__)
+PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Ian Lewis', 'ian@beproud.jp'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(BASE_DIR, 'eventstream.db'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_PATH, 'eventstream.sqlite'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -45,22 +51,48 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '(secret key)'
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
+SITE_MEDIA_ROOT = os.path.join(PROJECT_PATH, 'site_media')
+MEDIA_ROOT = os.path.join(SITE_MEDIA_ROOT, 'media')
+STATIC_ROOT = os.path.join(SITE_MEDIA_ROOT, 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/'
+SITE_MEDIA_URL = '/'
+MEDIA_URL = posixpath.join(SITE_MEDIA_URL, 'media/')
+STATIC_URL = posixpath.join(SITE_MEDIA_URL, 'static/')
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, 'static'),
+)
+
+STATICFILES_MEDIA_DIRNAMES = (
+    'media',
+    'static',
+)
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = posixpath.join(MEDIA_URL, 'admin/')
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '(secret key)'
+FIXTURE_DIRS = (
+    'fixtures',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.request',
+    'staticfiles.context_processors.static_url',
+)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -70,6 +102,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,12 +110,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'auth.middleware.AuthInfoMiddleware',
     'account.middleware.AccountMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
 )
 
-ROOT_URLCONF = 'eventstream.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), 'templates'),
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -93,11 +127,20 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django_extensions',
+    'debug_toolbar',
+    'staticfiles',
+    'jogging',
 
     'account',
     'event',
     'auth',
 )
+
+# Jogging
+from jogging.handlers import DatabaseHandler
+import logging
+GLOBAL_LOG_LEVEL = logging.WARNING
+GLOBAL_LOG_HANDLERS = [DatabaseHandler()] # takes any Handler object that Python's logging takes
 
 DOMAIN = 'example.com'
 
