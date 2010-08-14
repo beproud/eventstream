@@ -76,6 +76,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'auth.middleware.AuthInfoMiddleware',
+    'account.middleware.AccountMiddleware',
 )
 
 ROOT_URLCONF = 'eventstream.urls'

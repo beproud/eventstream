@@ -34,6 +34,9 @@ def get_openid_request(openid_url):
     return req.redirectURL(get_openid_realm(), get_openid_verify_url()), c
 
 def verify_openid_token(params, obj):
+    """
+    認証の検証を行って成功した場合のみOpenIDのURLを返す
+    """
     res = obj.complete(params, get_openid_verify_url())
     if res.status == 'success':
         return res.identity_url
