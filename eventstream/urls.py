@@ -4,8 +4,12 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     (r'^admin/', include(admin.site.urls)),
+
+    # Event CRUD
+    (r'^event/', include('event.urls')),
 )
 
 # static files for debug

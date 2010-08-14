@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}イベントを編集{% endblock %}
+
+{% block content %}
+<h1>イベントを編集</h1>
+
+<form action="" method="POST">
+{{ frm.as_p }}
+{% csrf_token %}
+<input type="submit" value="変更を保存">
+</form>
+{% endblock %}
