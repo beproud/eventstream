@@ -47,7 +47,7 @@ USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'eventstream.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(os.path.dirname(BASE_DIR), 'templates'),
 )
 
 INSTALLED_APPS = (
