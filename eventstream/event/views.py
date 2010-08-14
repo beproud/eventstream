@@ -7,13 +7,6 @@ from django.views.generic.simple import direct_to_template
 from event.forms import EventForm
 from event.models import Event
 
-
-def index(request):
-    """暫定トップ画面
-    TODO: できれば core とかに移動したい
-    """
-    return direct_to_template(request, 'index.html', {})
-
 #@login_required
 def create(request):
     """イベント新規作成
