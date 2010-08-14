@@ -4,8 +4,8 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns(
-    '',
+urlpatterns = patterns('',
+    (r'^auth/', include('auth.urls')),
     (r'^admin/', include(admin.site.urls)),
 
     # Event CRUD
