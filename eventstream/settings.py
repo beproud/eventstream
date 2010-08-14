@@ -94,4 +94,10 @@ INSTALLED_APPS = (
 
     'eventstream.account',
     'eventstream.event',
+    'auth',
 )
+
+DOMAIN = 'example.com:8000'
+
+import tempfile
+OPENID_STORE_DIR = tempfile.mkdtemp()
