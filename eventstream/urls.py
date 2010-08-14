@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^auth/', include('auth.urls')),
+    (r'^account/', include('account.urls')),
     (r'^admin/', include(admin.site.urls)),
 
     # Event CRUD

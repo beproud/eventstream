@@ -16,6 +16,16 @@ class AccountManager(models.Manager):
             account.save()
         return account
 
+    def get_by_openid_url(self, openid_url, return_none=False):
+        """
+        openidのurlからアカウント情報を取得する
+        """
+        try:
+            self.get_query_set().get(openid_url=openid_url)
+        except self.model.DoesNotExist:
+            if not return_none:
+                raise
+
 class Account(models.Model):
     """
     サイトのユーザアカウントモデル

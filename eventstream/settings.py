@@ -75,6 +75,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'auth.middleware.AuthInfoMiddleware',
+    'account.middleware.AccountMiddleware',
 )
 
 ROOT_URLCONF = 'eventstream.urls'
@@ -97,7 +99,7 @@ INSTALLED_APPS = (
     'auth',
 )
 
-DOMAIN = 'example.com:8000'
+DOMAIN = 'example.com'
 
 import tempfile
 OPENID_STORE_DIR = tempfile.mkdtemp()
