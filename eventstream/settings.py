@@ -92,6 +92,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
 
-    'eventstream.account',
-    'eventstream.event',
+    'account',
+    'event',
 )
