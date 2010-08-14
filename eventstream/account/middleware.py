@@ -20,6 +20,13 @@ class AccountMiddleware(object):
             request.account = request.session.get(ACCOUNT_SESSION_KEY)
         else:
             if getattr(request, 'authinfo', None):
-                request.account = Account.objects.get_by_openid_url(openid_url=request.authinfo.url, return_none=True)
+                try:
+                    account = Account.objects.get_by_openid_url(openid_url=request.authinfo.url)
+                except Account.DoesNotExist:
+                    request.account = None
+                else:
+                    # 取得できた場合はセッションにも格納しておく
+                    request.session[ACCOUNT_SESSION_KEY] = account
+                    request.account = account
             else:
                 request.account = None
