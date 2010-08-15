@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load account_event %}
 
 {% block content %}
 <h1><img src="{{ target_account.gravatar }}" /> {{ target_account.username }}</h1>
@@ -41,7 +42,6 @@
 
 
 <h3>管理しているイベント</h3>
-{% comment %}
 <div class="managed_event">
   <dl class="event">
     {% get_managed_events account=target_account as managed_events %}
@@ -51,20 +51,17 @@
     {% endfor %}
   </dl>
 </div>
-{% endcomment %}
 
 
 <h3>参加しているイベント</h3>
-{% comment %}
-<div id="participated_event">
+<div id="atended_event">
   <dl class="event">
-    {% get_participated_events account=target_account as participated_events %}
-    {% for event in participated_events %}
+    {% get_attended_events account=target_account as attended_events %}
+    {% for event in attended_events %}
     <dt>{{ event.started_at }}</dt>
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
 </div>
-{% endcomment %}
 
 {% endblock %}

@@ -14,11 +14,16 @@ class EventManager(models.Manager):
     """
     イベントマネージャ
     """
-    def by_account(self, account):
+    def managing_by_account(self, account):
         """
         指定アカウント主催のイベント取得
         """
-        return self.filter(user=account)
+        return self.filter(user=account).order_by('-started_at')
+
+    def attending_by_account(self, account):
+        """指定アカウントの参加情報取得
+        """
+        return self.filter(participation__user=account, participation__is_cancelled=False).order_by('-started_at')
 
 class Event(models.Model):
     """
@@ -62,12 +67,18 @@ class Event(models.Model):
 
 class ParticipationManager(models.Manager):
     def attending(self):
+        """参加情報取得
+        """
         return self.filter(is_cancelled=False)
 
     def cancelled(self):
+        """キャンセル情報取得
+        """
         return self.filter(is_cancelled=True)
 
 class Participation(models.Model):
+    """イベント参加管理モデル
+    """
     user = models.ForeignKey(Account, verbose_name=u"参加者")
     event = models.ForeignKey(Event, verbose_name=u"イベント")
     comment = models.TextField(u'コメント', max_length=1000, blank=True)
