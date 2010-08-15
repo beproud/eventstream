@@ -140,6 +140,33 @@ a img {
     margin-bottom: 10px;
 }
 
+#event-detail .event-main-contents {
+    float: left;
+}
+
+#event-detail .sidebar {
+    float: right; 
+    padding: 10px;
+    overflow: hidden;
+    width: 240px;
+}
+
+#event-detail .sidebar .participant-details-block {
+    padding: 10px;
+}
+#event-detail .sidebar .participant-details {
+    font-size: 15px;
+}
+#event-detail .sidebar .participant-details.good .participant-count {
+    color: green;
+}
+#event-detail .sidebar .participant-details.bad .participant-count {
+    color: red;
+}
+#event-detail .sidebar .participant-details .participant-count {
+    font-size: 30px;
+}
+
 tt, code, pre {
   font-size: 12px;
 }
