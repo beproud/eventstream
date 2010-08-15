@@ -8,4 +8,6 @@ urlpatterns = patterns(
     url(r'^(?P<event_id>\d+)/edit$', 'edit', name='edit'),
     url(r'^(?P<event_id>\d+)/delete$', 'delete', name='delete'),
     url(r'^(?P<event_id>\d+)/participate$', 'participate', name='participate'),
+
+    url(r'^list/(?P<list_type>\w+)/$', 'event_list', name='list'),
 )

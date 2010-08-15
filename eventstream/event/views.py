@@ -86,3 +86,11 @@ def participate(request, event):
         p.event = event
         p.save()
     return redirect(event) # イベント詳細ページ
+
+
+def event_list(request, list_type):
+    """イベント一覧表示
+
+    list_type = ('now', 'today', 'new')
+    """
+    pass

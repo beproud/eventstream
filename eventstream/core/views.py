@@ -12,5 +12,7 @@ from forms import *
 
 def index(request):
     return direct_to_template(request, 'core/index.html', extra_context = {
-        'object_list': Event.objects.all().order_by('-started_at')[:10],
-    })
+            'now_events': Event.objects.now_events()[:10],
+            'today_events': Event.objects.today_events()[:10],
+            'new_events': Event.objects.new_events()[:10],
+            })

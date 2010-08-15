@@ -2,14 +2,37 @@
 
 {% block content %}
 
-<h3>最新イベント</h3>
+<h3>現在開催中のイベント</h3>
 <div id="events">
   <dl class="event">
-    {% for event in object_list %}
+    {% for event in now_events %}
     <dt>{{ event.started_at }}</dt>
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
+  <a href="{% url event:list list_type='now' %}">一覧</a>
+</div>
+
+<h3>本日開催のイベント</h3>
+<div id="events">
+  <dl class="event">
+    {% for event in today_events %}
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
+    {% endfor %}
+  </dl>
+  <a href="{% url event:list list_type='today' %}">一覧</a>
+</div>
+
+<h3>最新イベント</h3>
+<div id="events">
+  <dl class="event">
+    {% for event in new_events %}
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
+    {% endfor %}
+  </dl>
+  <a href="{% url event:list list_type='new' %}">一覧</a>
 </div>
 
 {% endblock %}
