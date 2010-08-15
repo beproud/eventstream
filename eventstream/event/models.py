@@ -60,6 +60,13 @@ class Event(models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.id, self.name)
 
+class ParticipationManager(models.Manager):
+    def attending(self):
+        return self.filter(is_cancelled=False)
+
+    def cancelled(self):
+        return self.filter(is_cancelled=True)
+
 class Participation(models.Model):
     user = models.ForeignKey(Account, verbose_name=u"参加者")
     event = models.ForeignKey(Event, verbose_name=u"イベント")
@@ -69,9 +76,13 @@ class Participation(models.Model):
     ctime = models.DateTimeField(u'作成日時', default=datetime.now, db_index=True)
     utime = models.DateTimeField(u'更新日時', auto_now=True, db_index=True)
 
+    objects = ParticipationManager()
+
     class Meta:
         db_table = 'event_participation'
         verbose_name = verbose_name_plural = u'イベント参加'
+        unique_together = (("user", "event"),)
+        ordering = ['is_cancelled', '-ctime']
 
     def __unicode__(self):
         return u'%s (%s)' % (self.event, self.user)
