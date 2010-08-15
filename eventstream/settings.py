@@ -136,13 +136,18 @@ INSTALLED_APPS = (
     'auth',
 )
 
+# auth
+LOGIN_REDIRECT_URL = 'account:check'
+
 # Jogging
 from jogging.handlers import DatabaseHandler
 import logging
 GLOBAL_LOG_LEVEL = logging.WARNING
 GLOBAL_LOG_HANDLERS = [DatabaseHandler()] # takes any Handler object that Python's logging takes
 
-DOMAIN = 'localhost:8000'
-
+# openid
 import tempfile
 OPENID_STORE_DIR = tempfile.mkdtemp()
+
+# site
+DOMAIN = 'localhost:8000'
