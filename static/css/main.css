@@ -150,6 +150,10 @@ a img {
     width: 650px;
 }
 
+#event-detail .twitter-widget {
+    margin-top: 10px;
+}
+
 #event-detail .sidebar {
     float: right; 
     padding: 10px;
