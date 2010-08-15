@@ -113,7 +113,7 @@
     <div class="participants">
       {% for participant in event.attendants %}
       <div class="participant">
-        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        {{ forloop.counter }}. <a href="{% url account:detail participant.user.id %}" class="username">{{ participant.user.username }}</a>
         <div class="comment">{{ participant.comment }}</div>
       </div>
       {% endfor %}
@@ -126,7 +126,7 @@
     <div class="participants">
       {% for participant in event.waiting_list %}
       <div class="participant">
-        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        {{ forloop.counter }}. <a href="{% url account:detail participant.user.id %}" class="username">{{ participant.user.username }}</a>
         <div class="comment">{{ participant.comment }}</div>
       </div>
       {% endfor %}
@@ -139,7 +139,7 @@
     <div class="participants">
       {% for participant in event.cancelled %}
       <div class="participant">
-        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        {{ forloop.counter }}. <a href="{% url account:detail participant.user.id %}" class="username">{{ participant.user.username }}</a>
         <div class="comment">{{ participant.comment }}</div>
       </div>
       {% endfor %}
