@@ -96,6 +96,7 @@
     コメントを入力してください：
     <form action="{% url event:participate event.id %}" method="POST">
       <textarea id="id_comment" name="comment" rows="5" cols="25"></textarea>
+      {{ participate_form.is_cancelled }}
       <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
       {% csrf_token %}
     </form>
