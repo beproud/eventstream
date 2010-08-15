@@ -138,6 +138,7 @@ INSTALLED_APPS = (
 
 # auth
 LOGIN_REDIRECT_URL = 'account:check'
+LOGOUT_URL = 'core:index'
 
 # Jogging
 from jogging.handlers import DatabaseHandler
