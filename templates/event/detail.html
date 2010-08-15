@@ -31,23 +31,41 @@
 <a href="{% url event:delete event.id %}">削除</a>
 {% endif %}
 
+{% with event.participation_set.attending as attending_users %}
+{% if attending_users %}
 <h2>参加者</h2>
 
 <div class="participants">
-  {% for participant in event.participation_set.all %}
+  {% for participant in attending_users %}
   <div class="participant">
     {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
     <div class="comment">{{ participant.comment }}</div>
   </div>
   {% endfor %}
 </div>
+{% endif %}
+{% endwith %}
 
-{% if request.account not in event.participants.all %}
+{% with event.participation_set.cancelled as cancelled_users %}
+{% if cancelled_users %}
+<h2>キャンセル</h2>
+
+<div class="participants">
+  {% for participant in cancelled_users %}
+  <div class="participant">
+    {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+    <div class="comment">{{ participant.comment }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+
 <form action="{% url event:participate event.id %}" method="POST">
   {{ participate_form.as_p }}
-  <input type="submit" name="participate" value="参加"/>
+  <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
   {% csrf_token %}
 </form>
-{% endif %}
 
 {% endblock %}
