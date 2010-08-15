@@ -28,10 +28,11 @@ class AccountManager(models.Manager):
         openidのurlからアカウント情報を取得する
         """
         try:
-            self.get_query_set().get(openid_url=openid_url)
+            return self.get_query_set().get(openid_url=openid_url)
         except self.model.DoesNotExist:
             if not return_none:
                 raise
+            return None
 
     def check_new_username(self, new_username, username=None):
         """
