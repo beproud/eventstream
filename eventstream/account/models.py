@@ -26,6 +26,15 @@ class AccountManager(models.Manager):
             account.save()
         return account
 
+    def update_user_account(self, account, username, email, **kwargs):
+        account.user.username = username
+        account.user.email = email
+        account.user.save()
+        for k, v in kwargs:
+            setattr(account, k, v)
+        account.save()
+        return account
+
     def get_by_openid_url(self, openid_url, return_none=False):
         """
         openidのurlからアカウント情報を取得する
