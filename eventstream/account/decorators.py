@@ -13,5 +13,5 @@ def account_required(func):
         if has_account(request):
             return func(request, *args, **kwargs)
         # TODO: リダイレクト先の保持
-        return redirect(reverse('account:account_create'))
+        return redirect('account:create')
     return wraps(func)(_inner)
