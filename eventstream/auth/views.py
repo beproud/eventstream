@@ -8,6 +8,7 @@ from auth.decorators import consumer_reqiured, login_required
 from auth.utils import get_openid_request, verify_openid_token, CONSUMER_SESSION_KEY, AUTHINFO_SESSION_KEY
 from auth.forms import LoginForm
 from auth.models import AuthInfo
+from auth.signals import logout_done
 
 def login(request):
     """
@@ -42,8 +43,7 @@ def logout(request):
     ログアウトページ
     """
     request.session.flush()
-    if hasattr(request, "account"):
-        request.account = None
     if hasattr(request, "authinfo"):
         request.authinfo = None
-    return redirect('core:index')
+    logout_done.send(sender=logout, request=request)
+    return redirect(settings.LOGOUT_URL)
