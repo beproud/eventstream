@@ -5,13 +5,20 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class AccountManager(models.Manager):
-    def create_user_account(self, username, email, password, openid_url, commit=True):
+    def create_user_account(self, username, email, openid_url, account=None, commit=True, **kwargs):
         """
         UserとAccountをまとめて作成
         commit=Falseとしてもuserは作成される
         """
-        user = User.objects.create_user(username, email, password)
-        account = self.model(user=user, openid_url=openid_url)
+        user = User.objects.create_user(username, email)
+        # accountインスタンスを渡した場合
+        if not account:
+            account = self.model(user=user, openid_url=openid_url, **kwargs)
+        else:
+            account.user = user
+            account.openid_url = openid_url
+            for k, v in kwargs:
+                setattr(account, k, v)
         if commit:
             account.save()
         return account
@@ -25,6 +32,18 @@ class AccountManager(models.Manager):
         except self.model.DoesNotExist:
             if not return_none:
                 raise
+
+    def check_new_username(self, new_username, username=None):
+        """
+        新しいユーザ名として有効かどうかを判定する
+        """
+        if not new_username:
+            return False
+        # 同じ場合はok
+        if username == new_username:
+            return True
+        # 既にあるかチェック
+        return User.objects.filter(username=new_username).count() == 0
 
 class Account(models.Model):
     """
