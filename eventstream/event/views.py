@@ -35,7 +35,7 @@ def detail(request, event):
     """
     user_participation = get_object_or_None(Participation, user=request.account, event=event)
     # フォーム用 今の状態と逆
-    is_cancelled = not user_participation.is_cancelled if user_participation else True  
+    is_cancelled = not user_participation.is_cancelled if user_participation else False
     return direct_to_template(request, 'event/detail.html', {
         'participate_form': ParticipateForm(initial={'is_cancelled': is_cancelled}),
         'user_participation': user_participation,
