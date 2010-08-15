@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1><img src="{{ target_account.gravatar }}" /> {{ target_account.username }}</h1>
+
+
+<h3>ユーザ情報</h3>
+<div id="profile">
+  <dl>
+{% if target_account == request.account %}
+    <dt>Email</dt>
+    <dd>{{ target_account.email }}</dd>
+
+    <dt>OpenID URL</dt>
+    <dd>{{ target_account.openid_url }}</dd>
+{% endif %}
+    <dt>URL</dt>
+    <dd>{{ target_account.url }}</dd>
+
+    <dt>Twitter ID</dt>
+    <dd>{{ target_account.tiwtter_acount }}</dd>
+
+    <dt>メールによる通知</dt>
+    <dd>{{ target_account.notify_email }}</dd>
+  </dl>
+
+  {% if target_account == request.account %}
+  <a href="{# TODO: % account:edit target_account.id % #}">ユーザー情報の編集</a>
+  {% endif %}
+</div>
+
+
+<h3>管理しているイベント</h3>
+{% comment %}
+<div class="event">
+  <ul>
+    {% get_managed_events account=target_account as managed_events %}
+    {% for event in managed_events %}
+    <li>{{ event.started_at }}
+      <a href="{{ event.get_absolute_url }}">{{ event.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endcomment %}
+
+
+<h3>参加しているイベント</h3>
+{% comment %}
+<div class="event">
+  <ul>
+    {% get_participated_events account=target_account as participated_events %}
+    {% for event in participated_events %}
+    <li>{{ event.started_at }}
+      <a href="{{ event.get_absolute_url }}">{{ event.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endcomment %}
+
+{% endblock %}

@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('account.views',
+urlpatterns = patterns(
+    'account.views',
     url(r'^create$', 'create', name='account_create'),
+    url(r'^(?P<account_id>\d+)$', 'detail', name='detail'),
 )
