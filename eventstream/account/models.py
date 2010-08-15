@@ -77,7 +77,6 @@ class Account(models.Model):
         if self.user:
             return self.user.email
 
-    @property
     def gravatar(self, size=None):
         """
         gravatarのURLを返す

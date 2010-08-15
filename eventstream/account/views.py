@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 from auth.decorators import login_required
 from account.utils import LOGIN_REDIRECT_SESSION_KEY
@@ -33,3 +33,9 @@ def create(request):
         )
         return redirect('account:check')
     return direct_to_template(request, 'account/create.html', {'form': form})
+
+def detail(request, account_id):
+    """指定アカウント詳細ページ
+    """
+    account = get_object_or_404(Account, pk=account_id)
+    return direct_to_template(request, 'account/detail.html', {'target_account': account})
