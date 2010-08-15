@@ -1,11 +1,20 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 from auth.decorators import login_required
 from account.forms import AccountForm
 from account.models import Account
+
+def check(request):
+    """
+    ログイン直後の遷移先
+    Accountをチェックしてリダイレクトする
+    """
+    if request.account:
+        # TODO: リダイレクト保持
+        return redirect('core:index')
+    return redirect('account:create')
 
 @login_required
 def create(request):
@@ -21,5 +30,5 @@ def create(request):
             account=form.instance,
         )
         # TODO: リダイレクト保持
-        return redirect(reverse('core:index'))
+        return redirect('core:index')
     return direct_to_template(request, 'account/create.html', {'form': form})
