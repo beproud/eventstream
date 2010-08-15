@@ -27,8 +27,8 @@
 <div>{{ body }}</div>
 
 {# TOOD: 所有者のみチェック #}
-<a href="{% url event_edit event.id %}">編集</a> |
-<a href="{% url event_delete event.id %}">削除</a>
+<a href="{% url event:edit event.id %}">編集</a> |
+<a href="{% url event:delete event.id %}">削除</a>
 {# ENDTODO #}
 
 {% endblock %}
