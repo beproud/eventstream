@@ -21,5 +21,5 @@ def create(request):
             account=form.instance,
         )
         # TODO: リダイレクト保持
-        return redirect(reverse('index'))
+        return redirect('index')
     return direct_to_template(request, 'account/create.html', {'form': form})

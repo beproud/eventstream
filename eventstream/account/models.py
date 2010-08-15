@@ -4,6 +4,8 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+from account.utils import gravatar_for_email
+
 class AccountManager(models.Manager):
     def create_user_account(self, username, email, openid_url, account=None, commit=True, **kwargs):
         """
@@ -62,3 +64,24 @@ class Account(models.Model):
     class Meta:
         db_table = 'account'
         verbose_name = verbose_name_plural = u'アカウント'
+
+    @property
+    def username(self):
+        if self.user:
+            return self.user.username
+
+    @property
+    def email(self):
+        if self.user:
+            return self.user.email
+
+    @property
+    def gravatar(self, size=None):
+        """
+        gravatarのURLを返す
+        """
+        if self.email:
+            return gravatar_for_email(self.email, size)
+
+    def __unicode__(self):
+        return '%s: %s' % (self.pk, self.username)
