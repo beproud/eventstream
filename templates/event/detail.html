@@ -11,13 +11,13 @@
 
     <div class="event-details">
       {% if event.googlemaps_image_url %}
-      <div>
+      <div class="event-map">
         <a href="{{ event.googlemaps_search_url }}" target="_blank">
           <img src="{{ event.googlemaps_image_url }}" alt="{{ event.address }}" />
         </a>
       </div>
       {% endif %}
-      <dl>
+      <dl class="event-data">
         <dt>日時</dt>
         <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
 
@@ -28,7 +28,8 @@
 
         {% if event.place or event.address %}
         <dt>会場</dt>
-        <dd>{% if event.place %}{{ event.place }}{% if event.address %}({{ event.address }}){% endif %}{% else %}{{ event.address }}{% endif %}</dd>
+        <dd>
+        {% if event.place %}{{ event.place }}{% if event.address %}({{ event.address }}){% endif %}{% else %}{{ event.address }}{% endif %}{% if event.googlemaps_search_url %} <a href="{{ event.googlemaps_search_url }}">地図</a>{% endif %}</dd>
         {% endif %}
 
         {% if event.hashtag %}
