@@ -113,6 +113,33 @@ a img {
   /* text-decoration: none; */
 }
 
+/* Event */
+#event-detail .event-description {
+    margin-bottom: 10px;
+}
+#event-detail .event-details {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
+}
+
+#event-detail .event-details dl dt {
+    float: left;
+    clear: both;
+    width: 100px;
+    padding-bottom: 10px;
+}
+#event-detail .event-details dl dd {
+    float: left;
+}
+#event-detail .event-body {
+    clear: both;
+    padding: 10px 0;
+}
+#event-detail .event-body p {
+    margin-bottom: 10px;
+}
+
 tt, code, pre {
   font-size: 12px;
 }

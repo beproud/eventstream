@@ -3,77 +3,81 @@
 {% block title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-<h1>{{ event.name }}</h1>
+<div id="event-detail">
+  <h1 class="event-title">{{ event.name }}</h1>
 
-<div>{{ event.description }}</div>
+  <div class="event-description">{{ event.description|linebreaksbr }}</div>
 
-<dl>
-  <dt>日時</dt>
-  <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
+  <div class="event-details">
+    <dl>
+      <dt>日時</dt>
+      <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
 
-  <dt>定員</dt>
-  <dd>{{ event.member_limit }}人</dd>
+      <dt>定員</dt>
+      <dd>{{ event.member_limit }}人</dd>
 
-  <dt>会場</dt>
-  <dd>{{ event.place }}({{ event.address }})</dd>
+      <dt>会場</dt>
+      <dd>{{ event.place }}({{ event.address }})</dd>
 
-  <dt>ハッシュタグ</dt>
-  <dd>{{ event.hashtag }}</dd>
+      <dt>ハッシュタグ</dt>
+      <dd>{{ event.hashtag }}</dd>
 
-  <dt>管理者</dt>
-  <dd>{{ event.user.nickname }}</dd>
-</dl>
-
-<div>{{ body }}</div>
-
-{% if request.account == event.user %}
-<a href="{% url event:edit event.id %}">編集</a> |
-<a href="{% url event:delete event.id %}">削除</a>
-{% endif %}
-
-{% if event.attendants %}
-<h2>参加者</h2>
-
-<div class="participants">
-  {% for participant in event.attendants %}
-  <div class="participant">
-    {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-    <div class="comment">{{ participant.comment }}</div>
+      <dt>管理者</dt>
+      <dd>{{ event.user.username }}</dd>
+    </dl>
+    <div class="clear"></div>
   </div>
-  {% endfor %}
-</div>
-{% endif %}
 
-{% if event.waiting_list %}
-<h2>キャンセル待ち</h2>
+  <div class="event-body">{{ event.body|linebreaks }}</div>
 
-<div class="participants">
-  {% for participant in event.waiting_list %}
-  <div class="participant">
-    {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-    <div class="comment">{{ participant.comment }}</div>
+  {% if request.account == event.user %}
+  <a href="{% url event:edit event.id %}">編集</a> |
+  <a href="{% url event:delete event.id %}">削除</a>
+  {% endif %}
+
+  {% if event.attendants %}
+  <h2>参加者</h2>
+
+  <div class="participants">
+    {% for participant in event.attendants %}
+    <div class="participant">
+      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+      <div class="comment">{{ participant.comment }}</div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
-{% endif %}
+  {% endif %}
 
-{% if event.cancelled %}
-<h2>キャンセル</h2>
+  {% if event.waiting_list %}
+  <h2>キャンセル待ち</h2>
 
-<div class="participants">
-  {% for participant in event.cancelled %}
-  <div class="participant">
-    {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-    <div class="comment">{{ participant.comment }}</div>
+  <div class="participants">
+    {% for participant in event.waiting_list %}
+    <div class="participant">
+      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+      <div class="comment">{{ participant.comment }}</div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  {% endif %}
+
+  {% if event.cancelled %}
+  <h2>キャンセル</h2>
+
+  <div class="participants">
+    {% for participant in event.cancelled %}
+    <div class="participant">
+      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+      <div class="comment">{{ participant.comment }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form action="{% url event:participate event.id %}" method="POST">
+    {{ participate_form.as_p }}
+    <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
+    {% csrf_token %}
+  </form>
 </div>
-{% endif %}
-
-<form action="{% url event:participate event.id %}" method="POST">
-  {{ participate_form.as_p }}
-  <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
-  {% csrf_token %}
-</form>
-
 {% endblock %}
