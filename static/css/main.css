@@ -1,0 +1,399 @@
+/*
+ * Copyright 2008 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { border:0;
+}
+
+/* END YAHOO RESET */
+
+
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 83%;
+  background-color: #fff;
+}
+
+h1 {
+    margin: 0;
+}
+
+h1 a {
+    color: black;
+    text-decoration: none;
+}
+h2 {
+    font-size: 150%;
+}
+
+a img {
+    border: none;
+}
+
+#user-message {
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#user-message-inner {
+
+}
+
+#user-message .message-text {
+    font-weight: bold;
+    /* background: #AAABE8;  */
+    background-color: #FFEDCE;
+    padding: 5px 10px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-left-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+}
+
+#body-wrapper {
+    padding: 10px;
+}
+
+#header {
+    text-align: right;
+}
+
+#header #title {
+    float: left;
+    font-weight: bold;
+}
+
+.home {
+  font-size: 200%;
+  font-weight: bold;
+  color: #000;
+  /* text-decoration: none; */
+}
+
+tt, code, pre {
+  font-size: 12px;
+}
+
+/* Looks like a no-op, but inputs don't inherit font-size otherwise. */
+input {
+  font-size: 100%;
+}
+
+form {
+  margin: 0px;
+}
+
+ul {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+a {
+  color: #4182fa;
+}
+
+a.novisit {
+  color: #2a55a3;
+}
+
+a.redlink {
+  color: red;
+  font-weight: bold;
+}
+
+a.noul, a.noulv {
+  color: #4182fa; /* #93b7fa; */
+  text-decoration: none;
+}
+
+a:hover.noul, a:hover.noulv {
+  text-decoration: underline;
+}
+
+a:visited.noul, a:visited.noulv {
+  color: #a32a91; /* #2a55a3; */
+}
+
+/* Subheaders have standard Google light blue bg. */
+
+h2, h3 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Make h1, h2 headers lighter */
+h1, h2 {
+ font-weight: normal;
+}
+
+/* Make h1 header smaller */
+h1 {
+  margin-top: 0px;
+  font-size: 180%;
+}
+
+/* Styles for the history table */
+th {
+  padding: 3px;
+}
+
+table#queues, table#clfiles {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table#queues tr, table#clfiles tr {
+  border-bottom: thin solid lightgray;
+}
+
+table#queues td, table#clfiles td {
+  padding: 2px;
+}
+
+div#help {
+  position: fixed;
+  right: 4%;
+  left: 4%;
+  top: 5%;
+  opacity: 0.85;
+  -moz-opacity: 0.85;
+  -khtml-opacity: 0.85;
+  filter: alpha(opacity=85);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+
+  background: black;
+  color: white;
+  font-weight: bold;
+
+  padding: 1em;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+div#help th {
+  color: yellow;
+  text-align: left;
+}
+
+div#help td {
+  font-weight: normal;
+}
+
+/* Disabled text. */
+.disabled {
+  color: gray;
+}
+
+.url-list {
+  background-color: #E5ECF9;
+  border: 1px solid  #93b7fa;
+  border-bottom: 2px solid #93b7fa;
+  padding: 3px;
+  border-radius: 5px 5px 0px 0px;
+  -webkit-border-radius: 5px 5px 0px 0px;
+  -moz-border-radius: 5px 5px 0px 0px;
+}
+.url-list .header {
+  background-color: #E5ECF9;
+}
+.url-list .header h3 {
+  font-size: 1.1em;
+  margin: 0px;
+  padding: 3px;
+  padding-left: 0px;
+  
+}
+
+.url-list .pagination {
+  text-align: right;
+  padding: 3px;
+}
+.url-list table{
+  background-color: white;
+}
+.url-list table th {
+  background-color: #eeeeec;
+  border-right: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+}
+
+.url-list table td.last {
+  border-right: 1px solid lightgray;
+}
+
+.url-list table .first {
+  border-left: 1px solid lightgray;
+}
+
+.url-list form {
+  display: inline;
+}
+
+.url-list input.link-to {
+  color: #4182fa;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+  overflow: visible;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.url-list #history_chart #alternative_content {
+    padding: 20px 0;
+    text-align: center;
+    background-color: white;
+}
+
+/* Error Log */
+.errorlog {
+    cursor: pointer;
+}
+.errorlog.over {
+    /* background-color: #E5ECF9;  */
+    /* background-color: #C5D7EF;  */
+    background-color: #F6F9FF; 
+}
+.errorlog-expand {
+    width: 15px;
+}
+
+.errorlog-data {
+    border-bottom: none !important;
+}
+.errorlog-data {
+    padding: 2px;
+}
+.errorlog-expand {
+    /* When using generated media the path changes so use path from root */
+    background: transparent url("/media/img/icons/plus.gif") no-repeat 1px; 
+}
+.errorlog.expanded .errorlog-expand {
+    /* When using generated media the path changes so use path from root */
+    background: transparent url("/media/img/icons/minus.gif") no-repeat 1px; 
+}
+.errorlog-content.expanded .content-short {
+    display: none;
+}
+.errorlog-content .content-long {
+    display: none;
+}
+.errorlog-content.expanded .content-long {
+    display: block;
+}
+
+.url-list table tr.errorlog-content td {
+    padding-left: 10px !important;
+}
+
+/* URL Detail */
+#detail-block {
+    margin: 20px auto;
+    width: 50%;
+    min-width: 400px;
+    max-width: 800px;
+}
+
+.url-detail table.url-detail-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.url-detail table.url-detail-table td {
+    border-top: 1px solid #E5ECF9;
+    padding: 10px 15px;
+    color: #666699;
+}
+.url-detail table.url-detail-table tr:hover td {
+    background: none repeat scroll 0 0 #E5ECF9;
+    color: #333399;
+}
+.url-detail table.url-detail-table td.first {
+    background: none repeat scroll 0 0 #93B7FA;
+    color: #333399;
+    font-weight: bold;
+}
+.url-detail .url-detail-actions {
+    text-align: right;
+}
+.url-detail .url-detail-actions li {
+    display: inline;
+}
+
+/* Generic form error lists */
+ul.errorlist {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.errorlist li {
+  color: red;
+  font-weight: bold;
+}
+
+.footer {
+    margin-top: 20px;
+}
+
+.errors {
+    color: red;
+}
+
+.clear {
+    clear:both;
+}
+
+.clickable {
+    cursor:pointer;
+}
