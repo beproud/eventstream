@@ -1,7 +1,11 @@
 {% extends "base.html" %}
-{% load account_event %}
+{% load cache account_event %}
 
 {% block content %}
+{% cache 10 account_detail target_account.id %}
+{% get_managing_events account=target_account as managing_events %}
+{% get_attending_events account=target_account as attending_events %}
+{% get_cancelling_events account=target_account as cancelling_events %}
 <h1><img src="{{ target_account.gravatar }}" /> {{ target_account.username }}</h1>
 
 
@@ -26,13 +30,13 @@
 
 
     <dt>イベント管理数</dt>
-    <dd>Not Implemented</dd>
+    <dd>{{ managing_events|length }}</dd>
 
     <dt>イベント参加数</dt>
-    <dd>Not Implemented</dd>
+    <dd>{{ attending_events|length }}</dd>
 
     <dt>イベントキャンセル数</dt>
-    <dd>Not Implemented</dd>
+    <dd>{{ cancelling_events|length }}</dd>
   </dl>
 
   {% if target_account == request.account %}
@@ -44,8 +48,7 @@
 <h3>管理しているイベント</h3>
 <div class="managed_event">
   <dl class="event">
-    {% get_managed_events account=target_account as managed_events %}
-    {% for event in managed_events %}
+    {% for event in managing_events %}
     <dt>{{ event.started_at }}</dt>
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
@@ -56,12 +59,11 @@
 <h3>参加しているイベント</h3>
 <div id="atended_event">
   <dl class="event">
-    {% get_attended_events account=target_account as attended_events %}
-    {% for event in attended_events %}
+    {% for event in attending_events %}
     <dt>{{ event.started_at }}</dt>
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
 </div>
-
+{% endcache %}
 {% endblock %}

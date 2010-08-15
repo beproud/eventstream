@@ -19,12 +19,17 @@ class EventManager(models.Manager):
         """
         指定アカウント主催のイベント取得
         """
-        return self.filter(user=account).order_by('-started_at')
+        return self.filter(user=account)
 
     def attending_by_account(self, account):
-        """指定アカウントの参加情報取得
+        """指定アカウントの参加イベント取得
         """
-        return self.filter(participation__user=account, participation__is_cancelled=False).order_by('-started_at')
+        return self.filter(participation__user=account, participation__is_cancelled=False)
+
+    def cancelling_by_account(self, account):
+        """指定アカウントのキャンセルイベント取得
+        """
+        return self.filter(participation__user=account, participation__is_cancelled=True)
 
 class Event(models.Model):
     """
@@ -80,6 +85,7 @@ class Event(models.Model):
     class Meta:
         db_table = 'event'
         verbose_name = verbose_name_plural = u'イベント'
+        ordering = ['-started_at']
 
     def __unicode__(self):
         return u'%s: %s' % (self.id, self.name)
