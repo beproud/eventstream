@@ -114,8 +114,12 @@ a img {
 }
 
 /* Event */
+#event-detail {
+    width: 920px;
+}
 #event-detail .event-description {
     margin-bottom: 10px;
+    overflow: hidden;
 }
 #event-detail .event-details {
     border-top: 1px solid black;
@@ -135,6 +139,7 @@ a img {
 #event-detail .event-body {
     clear: both;
     padding: 10px 0;
+    overflow: hidden;
 }
 #event-detail .event-body p {
     margin-bottom: 10px;
@@ -142,6 +147,7 @@ a img {
 
 #event-detail .event-main-contents {
     float: left;
+    width: 650px;
 }
 
 #event-detail .sidebar {
