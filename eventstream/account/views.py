@@ -3,6 +3,7 @@ from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
 
 from auth.decorators import login_required
+from account.utils import LOGIN_REDIRECT_SESSION_KEY
 from account.forms import AccountForm
 from account.models import Account
 
@@ -12,8 +13,9 @@ def check(request):
     Accountをチェックしてリダイレクトする
     """
     if request.account:
-        # TODO: リダイレクト保持
-        return redirect('core:index')
+        # 保持しておいたリダイレクト先があれば使う
+        redirect_name = request.session.get(LOGIN_REDIRECT_SESSION_KEY, 'core:index')
+        return redirect(redirect_name)
     return redirect('account:create')
 
 @login_required
@@ -29,6 +31,5 @@ def create(request):
             openid_url=request.authinfo.url,
             account=form.instance,
         )
-        # TODO: リダイレクト保持
-        return redirect('core:index')
+        return redirect('account:check')
     return direct_to_template(request, 'account/create.html', {'form': form})

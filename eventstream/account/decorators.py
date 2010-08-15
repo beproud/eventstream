@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.utils.functional import wraps
 
-from account.utils import has_account
+from account.utils import has_account, LOGIN_REDIRECT_SESSION_KEY
 
 def account_required(func):
     """
@@ -12,6 +12,7 @@ def account_required(func):
     def _inner(request, *args, **kwargs):
         if has_account(request):
             return func(request, *args, **kwargs)
-        # TODO: リダイレクト先の保持
+        # リダイレクト先の保持
+        request.session[LOGIN_REDIRECT_SESSION_KEY] = request.path
         return redirect('account:create')
     return wraps(func)(_inner)
