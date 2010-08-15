@@ -30,6 +30,10 @@ class Event(models.Model):
     started_at = models.DateTimeField(u'開始日時', default=datetime.now)
     ended_at = models.DateTimeField(u'終了日時', default=datetime.now)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('event:detail', (self.id,), {}) 
+
     class Meta:
         db_table = 'event'
         verbose_name = verbose_name_plural = u'イベント'

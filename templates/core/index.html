@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a href="#">ログイン</a> |
-<a href="{% url event_create %}">イベント新規作成</a>
+{% if user.is_authenticated %}{{ user.username }} | <a href="{% url auth:logout %}">ログアウト</a>{% else %}<a href="{% url auth:login %}">ログイン</a>{% endif %} |
+<a href="{% url event:create %}">イベント新規作成</a>
 
+<div id="events">
+  {% for event in object_list %}
+  <div class="event">
+    <a href="{{ event.get_absolute_url }}">{{ event.name }}</a>
+  </div>
+  {% endfor %}
+</div>
 
 {% endblock %}
