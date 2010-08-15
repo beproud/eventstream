@@ -10,7 +10,7 @@
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
-  <a href="{% url event:list list_type='now' %}">一覧</a>
+  <a href="{% url event:now_list %}">一覧</a>
 </div>
 
 <h3>本日開催のイベント</h3>
@@ -21,7 +21,7 @@
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
-  <a href="{% url event:list list_type='today' %}">一覧</a>
+  <a href="{% url event:today_list %}">一覧</a>
 </div>
 
 <h3>最新イベント</h3>
@@ -32,7 +32,7 @@
     <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
   </dl>
-  <a href="{% url event:list list_type='new' %}">一覧</a>
+  <a href="{% url event:new_list %}">一覧</a>
 </div>
 
 {% endblock %}

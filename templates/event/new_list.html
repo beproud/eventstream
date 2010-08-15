@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>最新のイベント</h1>
+
+<div>
+  {% if object_list %}
+  <dl class="event">
+    {% for event in object_list %}
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
+    {% endfor %}
+  </dl>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+      {% endif %}
+      <span class="current">
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+      {% endif %}
+    </span>
+  </div>
+  {% else %}
+  現在開催中のイベントはありません
+  {% endif %}
+</div>
+{% endblock %}

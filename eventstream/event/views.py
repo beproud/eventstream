@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.views.generic.simple import direct_to_template
 
 from account.decorators import account_required
@@ -86,11 +84,3 @@ def participate(request, event):
         p.event = event
         p.save()
     return redirect(event) # イベント詳細ページ
-
-
-def event_list(request, list_type):
-    """イベント一覧表示
-
-    list_type = ('now', 'today', 'new')
-    """
-    pass
