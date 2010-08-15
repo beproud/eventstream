@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.db import models
 
+from commons.decorators import cached_property
 from account.models import Account
 
 __all__ = (
@@ -45,9 +46,27 @@ class Event(models.Model):
         blank=True,
         null=True,
     )
-    # TODO: 正規 参加者
-    # TODO: キャンセル待ち
-    # TODO: キャンセルリスト
+
+    @cached_property
+    def attendants(self):
+        """
+        正規 参加者
+        """
+        return self.participation_set.attending()[:self.member_limit]
+
+    @cached_property
+    def waiting_list(self):
+        """
+        キャンセル待ち
+        """
+        return self.participation_set.attending()[self.member_limit:]
+
+    @cached_property
+    def cancelled(self):
+        """
+        キャンセルリスト
+        """
+        return self.participation_set.cancelled()
 
     @models.permalink
     def get_absolute_url(self):
@@ -82,7 +101,7 @@ class Participation(models.Model):
         db_table = 'event_participation'
         verbose_name = verbose_name_plural = u'イベント参加'
         unique_together = (("user", "event"),)
-        ordering = ['is_cancelled', '-ctime']
+        ordering = ['is_cancelled', 'ctime']
 
     def __unicode__(self):
         return u'%s (%s)' % (self.event, self.user)
