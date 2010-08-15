@@ -21,14 +21,20 @@
         <dt>日時</dt>
         <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
 
+        {% if event.member_limit %}
         <dt>定員</dt>
         <dd>{{ event.member_limit }}人</dd>
+        {% endif %}
 
+        {% if event.place or event.address %}
         <dt>会場</dt>
-        <dd>{{ event.place }}({{ event.address }})</dd>
+        <dd>{% if event.place %}{{ event.place }}{% if event.address %}({{ event.address }}){% endif %}{% else %}{{ event.address }}{% endif %}</dd>
+        {% endif %}
 
+        {% if event.hashtag %}
         <dt>ハッシュタグ</dt>
-        <dd>{{ event.hashtag }}</dd>
+        <dd><a href="http://twitter.com/#search?q={{ event.hashtag|urlencode }}">{{ event.hashtag }}</a></dd>
+        {% endif %}
 
         <dt>管理者</dt>
         <dd>{{ event.user.username }}</dd>
@@ -95,8 +101,8 @@
 
     <div class="participant-details-block">
       このイベントの参加希望者
-      <span class="participant-details{% if event.participants_count >= event.member_limit %} bad{% else %} good {% endif %}">
-        <span class<span class="participant-count">{{ event.participants_count }}</span> / <span class="member-limit">{{ event.member_limit }}</span>
+      <span class="participant-details{% if event.member_limit and event.participants_count >= event.member_limit %} bad{% else %} good {% endif %}">
+        <span class<span class="participant-count">{{ event.participants_count }}</span>{% if event.member_limit %} / <span class="member-limit">{{ event.member_limit }}{% endif %}</span>
       </span>
     </div>
 
