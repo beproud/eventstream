@@ -96,6 +96,7 @@
   </div>
 
   <div class="sidebar">
+    {% if request.account %}
     コメントを入力してください：
     <form action="{% url event:participate event.id %}" method="POST">
       <textarea id="id_comment" name="comment" rows="5" cols="25"></textarea>
@@ -103,6 +104,11 @@
       <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
       {% csrf_token %}
     </form>
+    {% else %}
+    <form action="{% url auth:login %}" method="GET">
+      <input type="submit" name="participate" value="参加"/>
+    </form>
+    {% endif %}
 
     <div class="participant-details-block">
       このイベントの参加希望者
