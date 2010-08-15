@@ -2,8 +2,10 @@
 from datetime import datetime
 
 from django.db import models
+from django.db.signals import pre_save
 
 from commons.decorators import cached_property
+from commons.utils import maps
 from account.models import Account
 
 __all__ = (
@@ -47,6 +49,9 @@ class Event(models.Model):
     hashtag = models.CharField(u'Twitterハッシュタグ', max_length=100, blank=True, null=True)
     started_at = models.DateTimeField(u'開始日時', default=datetime.now)
     ended_at = models.DateTimeField(u'終了日時', default=datetime.now)
+    # googlemaps
+    lat = models.DecimalField('lat', max_digits=15, decimal_places=12, blank=True, null=True)
+    lng = models.DecimalField('lng', max_digits=15, decimal_places=12, blank=True, null=True)
 
     participants = models.ManyToManyField(
         Account,
@@ -122,3 +127,15 @@ class Participation(models.Model):
 
     def __unicode__(self):
         return u'%s (%s)' % (self.event, self.user)
+
+
+def update_event_lat_lng(sender, instance, **kwargs):
+    """
+    lat, lngを保存前に更新する
+    """
+    if instance.address:
+        # 検索に失敗してもエラーを出さない
+        lat, lng = maps.get_lat_lng(silent=True)
+        instance.lat = lat
+        instance.lng = lng
+pre_save.connect(update_event_lat_lng, sender=Event)
