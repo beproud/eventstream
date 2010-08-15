@@ -37,6 +37,45 @@
       <a href="{% url event:delete event.id %}">削除</a>
     </div>
     {% endif %}
+
+    {% if event.hashtag %}
+    <div class="twitter-widget">
+      <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script>
+      new TWTR.Widget({
+        version: 2,
+        type: 'search',
+        search: '{{ event.hashtag }}',
+        interval: 6000,
+        title: '',
+        subject: '{{ event.name }}',
+        width: 650,
+        height: 600,
+        theme: {
+          shell: {
+            background: '#8ec1da',
+            color: '#ffffff'
+          },
+          tweets: {
+            background: '#ffffff',
+            color: '#444444',
+            links: '#1985b5'
+          }
+        },
+        features: {
+          scrollbar: false,
+          loop: true,
+          live: true,
+          hashtags: true,
+          timestamp: true,
+          avatars: true,
+          toptweets: true,
+          behavior: 'default'
+        }
+      }).render().start();
+      </script>
+    </div>
+    {% endif %}
   </div>
 
   <div class="sidebar">
