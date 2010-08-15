@@ -14,17 +14,13 @@ class EventModelTest(TestCase):
         self.a1 = Account.objects.create_user_account(
             username='user1',
             email='user1@example.com',
-            password='password1',
             openid_url='http://example.com/user1/',
-            nickname='nick1'
             )
 
         self.a2 = Account.objects.create_user_account(
             username='user2',
             email='user2@example.com',
-            password='password2',
             openid_url='http://example.com/user2/',
-            nickname='nick2'
             )
 
         # Event
@@ -39,11 +35,11 @@ class EventModelTest(TestCase):
     def tearDown(self):
         pass
 
-    def test_eventmanager_by_account(self):
-        """EventManager.by_account テスト
+    def test_eventmanager_managing_by_account(self):
+        """EventManager.managing_by_account テスト
         """
-        events = Event.objects.by_account(self.a1)
+        events = Event.objects.managing_by_account(self.a1)
         self.assertEqual(events.count(), 1)
 
-        events = Event.objects.by_account(self.a2)
+        events = Event.objects.managing_by_account(self.a2)
         self.assertEqual(events.count(), 0)
