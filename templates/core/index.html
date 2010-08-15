@@ -2,12 +2,14 @@
 
 {% block content %}
 
+<h3>最新イベント</h3>
 <div id="events">
-  {% for event in object_list %}
-  <div class="event">
-    <a href="{{ event.get_absolute_url }}">{{ event.name }}</a>
-  </div>
-  {% endfor %}
+  <dl class="event">
+    {% for event in object_list %}
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
+    {% endfor %}
+  </dl>
 </div>
 
 {% endblock %}
