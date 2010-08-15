@@ -4,6 +4,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+from auth.signals import logout_done
 from account.utils import gravatar_for_email
 
 class AccountManager(models.Manager):
@@ -86,3 +87,11 @@ class Account(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.pk, self.username)
+
+def flush_session_account(sender, request, **kwargs):
+    """
+    セッションのアカウント情報を
+    """
+    if hasattr(request, "account"):
+        request.account = None
+logout_done.connect(flush_session_account)
