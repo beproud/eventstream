@@ -52,14 +52,14 @@ class Event(models.Model):
         """
         正規 参加者
         """
-        return self.participation_set.attending()[:self.member_limit]
+        return self.participation_set.attending()[:self.member_limit] if self.member_limit > 0 else self.participation_set.none()
 
     @cached_property
     def waiting_list(self):
         """
         キャンセル待ち
         """
-        return self.participation_set.attending()[self.member_limit:]
+        return self.participation_set.attending()[self.member_limit:] if self.member_limit > 0 else self.participation_set.attending()
 
     @cached_property
     def cancelled(self):
