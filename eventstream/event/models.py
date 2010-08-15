@@ -2,6 +2,7 @@
 from datetime import datetime, date, timedelta
 
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.db.models.signals import pre_save
 
 from commons.decorators import cached_property
@@ -63,7 +64,7 @@ class Event(models.Model):
     name = models.CharField(u'タイトル', max_length=255)
     description = models.TextField(u'説明', max_length=1000, blank=True)
     body = models.TextField(u'内容', max_length=1000)
-    member_limit = models.IntegerField(u'定員', blank=True, null=True)
+    member_limit = models.IntegerField(u'定員', validators=[MinValueValidator(1)], blank=True, null=True)
     place = models.CharField(u'会場', max_length=255, blank=True, null=True)
     address = models.CharField(u'住所', max_length=255, blank=True, null=True)
     hashtag = models.CharField(u'Twitterハッシュタグ', max_length=100, blank=True, null=True)
