@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import redirect
 from django.views.generic.simple import direct_to_template
+from django.views.decorators.http import require_http_methods
 
 from account.decorators import account_required
 
@@ -10,6 +11,7 @@ from event.decorators import event_view, owner_required
 from event.forms import *
 from event.models import * 
 
+@require_http_methods(["GET", "HEAD", "POST"])
 @account_required
 def create(request):
     """
@@ -28,6 +30,7 @@ def create(request):
         'frm': frm,
      })
 
+@require_http_methods(["GET", "HEAD"])
 @event_view
 def detail(request, event):
     """
@@ -42,6 +45,7 @@ def detail(request, event):
         'event': event,
     })
 
+@require_http_methods(["GET", "HEAD", "POST"])
 @account_required
 @event_view
 @owner_required
@@ -60,6 +64,7 @@ def edit(request, event):
         'frm': frm,
     })
 
+@require_http_methods(["POST"])
 @account_required
 @event_view
 @owner_required
@@ -70,6 +75,7 @@ def delete(request, event):
     event.delete()
     return redirect('core:index')
 
+@require_http_methods(["POST"])
 @account_required
 @event_view
 def participate(request, event):

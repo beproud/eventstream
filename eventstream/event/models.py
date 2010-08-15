@@ -148,12 +148,12 @@ class ParticipationManager(models.Manager):
     def attending(self):
         """参加情報取得
         """
-        return self.filter(is_cancelled=False)
+        return self.filter(is_cancelled=False).order_by('utime')
 
     def cancelled(self):
         """キャンセル情報取得
         """
-        return self.filter(is_cancelled=True)
+        return self.filter(is_cancelled=True).order_by('utime')
 
 class Participation(models.Model):
     """イベント参加管理モデル
@@ -172,7 +172,7 @@ class Participation(models.Model):
         db_table = 'event_participation'
         verbose_name = verbose_name_plural = u'イベント参加'
         unique_together = (("user", "event"),)
-        ordering = ['is_cancelled', 'ctime']
+        ordering = ['is_cancelled', 'utime']
 
     def __unicode__(self):
         return u'%s (%s)' % (self.event, self.user)

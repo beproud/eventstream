@@ -46,10 +46,13 @@
     <div class="event-body">{{ event.body|linebreaks }}</div>
 
     {% if request.account == event.user %}
-    <div class="event-actions">
-      <a href="{% url event:edit event.id %}">編集</a> |
-      <a href="{% url event:delete event.id %}">削除</a>
-    </div>
+    <form action="{% url event:delete event.id %}" method="POST">
+      <div class="event-actions">
+        <a href="{% url event:edit event.id %}">編集</a> |
+          <input type="submit" name="delete" value="削除">
+          {% csrf_token %}
+      </div>
+    </form>
     {% endif %}
 
     {% if event.hashtag %}
