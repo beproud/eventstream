@@ -79,6 +79,13 @@ class Event(models.Model):
     )
 
     @cached_property
+    def participants_count(self):
+        """
+        参加希望のカウント
+        """
+        return self.participation_set.attending().count()
+
+    @cached_property
     def attendants(self):
         """
         正規 参加者
@@ -98,6 +105,10 @@ class Event(models.Model):
         キャンセルリスト
         """
         return self.participation_set.cancelled()
+    
+    @cached_property
+    def cancelled_count(self):
+        return len(self.waiting_list)
 
     @models.permalink
     def get_absolute_url(self):

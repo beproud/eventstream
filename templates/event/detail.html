@@ -4,80 +4,135 @@
 
 {% block content %}
 <div id="event-detail">
-  <h1 class="event-title">{{ event.name }}</h1>
+  <div class="event-main-contents">
+    <h1 class="event-title">{{ event.name }}</h1>
 
-  <div class="event-description">{{ event.description|linebreaksbr }}</div>
+    <div class="event-description">{{ event.description|linebreaksbr }}</div>
 
-  <div class="event-details">
-    <dl>
-      <dt>日時</dt>
-      <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
+    <div class="event-details">
+      <dl>
+        <dt>日時</dt>
+        <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>
 
-      <dt>定員</dt>
-      <dd>{{ event.member_limit }}人</dd>
+        <dt>定員</dt>
+        <dd>{{ event.member_limit }}人</dd>
 
-      <dt>会場</dt>
-      <dd>{{ event.place }}({{ event.address }})</dd>
+        <dt>会場</dt>
+        <dd>{{ event.place }}({{ event.address }})</dd>
 
-      <dt>ハッシュタグ</dt>
-      <dd>{{ event.hashtag }}</dd>
+        <dt>ハッシュタグ</dt>
+        <dd>{{ event.hashtag }}</dd>
 
-      <dt>管理者</dt>
-      <dd>{{ event.user.username }}</dd>
-    </dl>
-    <div class="clear"></div>
-  </div>
-
-  <div class="event-body">{{ event.body|linebreaks }}</div>
-
-  {% if request.account == event.user %}
-  <a href="{% url event:edit event.id %}">編集</a> |
-  <a href="{% url event:delete event.id %}">削除</a>
-  {% endif %}
-
-  {% if event.attendants %}
-  <h2>参加者</h2>
-
-  <div class="participants">
-    {% for participant in event.attendants %}
-    <div class="participant">
-      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-      <div class="comment">{{ participant.comment }}</div>
+        <dt>管理者</dt>
+        <dd>{{ event.user.username }}</dd>
+      </dl>
+      <div class="clear"></div>
     </div>
-    {% endfor %}
-  </div>
-  {% endif %}
 
-  {% if event.waiting_list %}
-  <h2>キャンセル待ち</h2>
+    <div class="event-body">{{ event.body|linebreaks }}</div>
 
-  <div class="participants">
-    {% for participant in event.waiting_list %}
-    <div class="participant">
-      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-      <div class="comment">{{ participant.comment }}</div>
+    {% if request.account == event.user %}
+    <div class="event-actions">
+      <a href="{% url event:edit event.id %}">編集</a> |
+      <a href="{% url event:delete event.id %}">削除</a>
     </div>
-    {% endfor %}
-  </div>
-  {% endif %}
+    {% endif %}
 
-  {% if event.cancelled %}
-  <h2>キャンセル</h2>
-
-  <div class="participants">
-    {% for participant in event.cancelled %}
-    <div class="participant">
-      {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
-      <div class="comment">{{ participant.comment }}</div>
+    {% if event.hashtag %}
+    <div class="twitter-widget">
+      <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script>
+      new TWTR.Widget({
+        version: 2,
+        type: 'search',
+        search: '{{ event.hashtag }}',
+        interval: 6000,
+        title: '',
+        subject: '{{ event.name }}',
+        width: 650,
+        height: 600,
+        theme: {
+          shell: {
+            background: '#8ec1da',
+            color: '#ffffff'
+          },
+          tweets: {
+            background: '#ffffff',
+            color: '#444444',
+            links: '#1985b5'
+          }
+        },
+        features: {
+          scrollbar: false,
+          loop: true,
+          live: true,
+          hashtags: true,
+          timestamp: true,
+          avatars: true,
+          toptweets: true,
+          behavior: 'default'
+        }
+      }).render().start();
+      </script>
     </div>
-    {% endfor %}
+    {% endif %}
   </div>
-  {% endif %}
 
-  <form action="{% url event:participate event.id %}" method="POST">
-    {{ participate_form.as_p }}
-    <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
-    {% csrf_token %}
-  </form>
+  <div class="sidebar">
+    コメントを入力してください：
+    <form action="{% url event:participate event.id %}" method="POST">
+      <textarea id="id_comment" name="comment" rows="5" cols="25"></textarea>
+      <input type="submit" name="participate" value="{% if user_participation and not user_participation.is_cancelled %}参加キャンセル{% else %}参加{% endif %}"/>
+      {% csrf_token %}
+    </form>
+
+    <div class="participant-details-block">
+      このイベントの参加希望者
+      <span class="participant-details{% if event.participants_count >= event.member_limit %} bad{% else %} good {% endif %}">
+        <span class<span class="participant-count">{{ event.participants_count }}</span> / <span class="member-limit">{{ event.member_limit }}</span>
+      </span>
+    </div>
+
+    {% if event.attendants %}
+    <h2>参加者</h2>
+
+    <div class="participants">
+      {% for participant in event.attendants %}
+      <div class="participant">
+        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        <div class="comment">{{ participant.comment }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if event.waiting_list %}
+    <h2>キャンセル待ち</h2>
+
+    <div class="participants">
+      {% for participant in event.waiting_list %}
+      <div class="participant">
+        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        <div class="comment">{{ participant.comment }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if event.cancelled %}
+    <h2>キャンセル</h2>
+
+    <div class="participants">
+      {% for participant in event.cancelled %}
+      <div class="participant">
+        {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+        <div class="comment">{{ participant.comment }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+  <div class="clear"></div>
 </div>
 {% endblock %}

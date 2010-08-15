@@ -114,8 +114,12 @@ a img {
 }
 
 /* Event */
+#event-detail {
+    width: 920px;
+}
 #event-detail .event-description {
     margin-bottom: 10px;
+    overflow: hidden;
 }
 #event-detail .event-details {
     border-top: 1px solid black;
@@ -135,9 +139,42 @@ a img {
 #event-detail .event-body {
     clear: both;
     padding: 10px 0;
+    overflow: hidden;
 }
 #event-detail .event-body p {
     margin-bottom: 10px;
+}
+
+#event-detail .event-main-contents {
+    float: left;
+    width: 650px;
+}
+
+#event-detail .twitter-widget {
+    margin-top: 10px;
+}
+
+#event-detail .sidebar {
+    float: right; 
+    padding: 10px;
+    overflow: hidden;
+    width: 240px;
+}
+
+#event-detail .sidebar .participant-details-block {
+    padding: 10px;
+}
+#event-detail .sidebar .participant-details {
+    font-size: 15px;
+}
+#event-detail .sidebar .participant-details.good .participant-count {
+    color: green;
+}
+#event-detail .sidebar .participant-details.bad .participant-count {
+    color: red;
+}
+#event-detail .sidebar .participant-details .participant-count {
+    font-size: 30px;
 }
 
 tt, code, pre {
