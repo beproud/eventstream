@@ -2,12 +2,32 @@
 
 {% block title %}Event Stream{% endblock %}
 
-{% block body %}
-{% block header %}
-<a href="{% url core:index %}"><img src="{{ STATIC_URL }}img/logo.png" alt="Event Stream" /></a>
-{% if request.account %}<a href="{% url account:detail request.account.id %}">{{ request.account.username }}</a> | <a href="{% url auth:logout %}">ログアウト</a>{% else %}<a href="{% url auth:login %}">ログイン</a>{% endif %} |
-<a href="{% url event:create %}">イベント新規作成</a>
+{% block css %}
+<link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" type="text/css" />
 {% endblock %}
-{% block content %}{% endblock %}
-{% block footer %}{% endblock %}
+
+{% block body %}
+<div id="body-wrapper">
+  <div id="user-message" style="display:none"><div class="user-message-inner"><span class="message-text">Loading...</span</div></div>
+  {% block header %}
+  <div id="header">
+    <h1 id="title"><a href="{% url core:index %}"><img src="{{ STATIC_URL }}img/logo.png" alt="Event Stream" /></a></h1>
+    {% if request.account %}{{ request.account.username }} |{% endif %}
+    <a href="{% url event:create %}">イベント新規作成</a> |
+    {% if request.account %}<a href="{% url account:detail request.account.id %}">プロフィール</a> | <a href="{% url auth:logout %}">ログアウト</a>{% else %}<a href="{% url auth:login %}">ログイン</a>{% endif %}
+  </div>
+  <div class="clear"></div>
+  {% endblock %}
+  {% block content %}{% endblock %}
+  {% block footer %}
+  <div class="footer">
+    <div style="text-align: center;"> 
+      <p> 
+        &copy; 2010 株式会社ビープラウド&nbsp;-&nbsp;
+        <a href="http://www.beproud.jp/privacy_policy.html">プライバシーポリシー</a>
+      </p> 
+    </div>  
+  </div>
+  {% endblock %}
+</div>
 {% endblock %}

@@ -4,6 +4,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+from auth.signals import logout_done
 from account.utils import gravatar_for_email
 
 class AccountManager(models.Manager):
@@ -23,6 +24,15 @@ class AccountManager(models.Manager):
                 setattr(account, k, v)
         if commit:
             account.save()
+        return account
+
+    def update_user_account(self, account, username, email, **kwargs):
+        account.user.username = username
+        account.user.email = email
+        account.user.save()
+        for k, v in kwargs:
+            setattr(account, k, v)
+        account.save()
         return account
 
     def get_by_openid_url(self, openid_url, return_none=False):
@@ -85,3 +95,11 @@ class Account(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.pk, self.username)
+
+def flush_session_account(sender, request, **kwargs):
+    """
+    セッションのアカウント情報を
+    """
+    if hasattr(request, "account"):
+        request.account = None
+logout_done.connect(flush_session_account)

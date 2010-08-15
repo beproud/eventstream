@@ -36,7 +36,7 @@
   </dl>
 
   {% if target_account == request.account %}
-  <a href="{# TODO: % account:edit target_account.id % #}">ユーザー情報の編集</a>
+  <a href="{% url account:edit %}">ユーザー情報の編集</a>
   {% endif %}
 </div>
 
