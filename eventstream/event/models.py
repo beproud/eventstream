@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 from django.db import models
 from django.db.models.signals import pre_save
@@ -32,6 +32,27 @@ class EventManager(models.Manager):
         """指定アカウントのキャンセルイベント取得
         """
         return self.filter(participation__user=account, participation__is_cancelled=True)
+
+    def now_events(self, now=None):
+        """現在開催中のイベントを開催日時が古い順に取得
+        """
+        if now is None:
+            now = datetime.now()
+        return self.filter(started_at__lte=now, ended_at__gt=now).order_by('started_at')
+
+    def today_events(self, today=None):
+        """本日開催のイベントを開催日時が古い順に取得
+        """
+        if today is None:
+            today = date.today()
+        tommorow = today + timedelta(1)
+        return self.filter(started_at__gte=today, started_at__lt=tommorow).order_by('started_at')
+
+    def new_events(self):
+        """最新登録されたイベントを作成日時が古い順に取得
+        """
+        #TODO:order_by('-created_at')
+        return self.all().order_by('started_at')
 
 class Event(models.Model):
     """

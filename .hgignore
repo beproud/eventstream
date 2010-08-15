@@ -18,6 +18,7 @@ bin/
 manage-log.txt
 *.egg-info
 docs/ja/build
+.DS_Store
 
 syntax: regexp
 .*\#.*\#$
