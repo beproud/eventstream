@@ -3,9 +3,10 @@ from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect, get_object_or_404
 
 from auth.decorators import login_required
-from account.utils import LOGIN_REDIRECT_SESSION_KEY
+from account.utils import ACCOUNT_SESSION_KEY, LOGIN_REDIRECT_SESSION_KEY
 from account.forms import AccountForm
 from account.models import Account
+from account.decorators import account_required
 
 def check(request):
     """
@@ -33,6 +34,23 @@ def create(request):
         )
         return redirect('account:check')
     return direct_to_template(request, 'account/create.html', {'form': form})
+
+@account_required
+def edit(request):
+    """
+    アカウント情報編集ページ
+    """
+    form = AccountForm(request.POST or None, instance=request.account, initial={'username': request.account.username, 'email': request.account.email})
+    if form.is_valid():
+        account = Account.objects.update_user_account(
+            account=form.instance,
+            username=form.cleaned_data['username'],
+            email=form.cleaned_data['email'],
+        )
+        # セッションの更新
+        request.session[ACCOUNT_SESSION_KEY] = account
+        return redirect('account:detail', account_id=account.pk)
+    return direct_to_template(request, 'account/edit.html', {'form': form})
 
 def detail(request, account_id):
     """指定アカウント詳細ページ
