@@ -22,6 +22,16 @@
 
     <dt>メールによる通知</dt>
     <dd>{{ target_account.notify_email }}</dd>
+
+
+    <dt>イベント管理数</dt>
+    <dd>Not Implemented</dd>
+
+    <dt>イベント参加数</dt>
+    <dd>Not Implemented</dd>
+
+    <dt>イベントキャンセル数</dt>
+    <dd>Not Implemented</dd>
   </dl>
 
   {% if target_account == request.account %}
@@ -32,28 +42,28 @@
 
 <h3>管理しているイベント</h3>
 {% comment %}
-<div class="event">
-  <ul>
+<div class="managed_event">
+  <dl class="event">
     {% get_managed_events account=target_account as managed_events %}
     {% for event in managed_events %}
-    <li>{{ event.started_at }}
-      <a href="{{ event.get_absolute_url }}">{{ event.name }}</a></li>
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
-  </ul>
+  </dl>
 </div>
 {% endcomment %}
 
 
 <h3>参加しているイベント</h3>
 {% comment %}
-<div class="event">
-  <ul>
+<div id="participated_event">
+  <dl class="event">
     {% get_participated_events account=target_account as participated_events %}
     {% for event in participated_events %}
-    <li>{{ event.started_at }}
-      <a href="{{ event.get_absolute_url }}">{{ event.name }}</a></li>
+    <dt>{{ event.started_at }}</dt>
+    <dd><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></dd>
     {% endfor %}
-  </ul>
+  </dl>
 </div>
 {% endcomment %}
 
