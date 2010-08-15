@@ -10,6 +10,13 @@
     <div class="event-description">{{ event.description|linebreaksbr }}</div>
 
     <div class="event-details">
+      {% if event.googlemaps_image_url %}
+      <div>
+        <a href="{{ event.googlemaps_search_url }}" target="_blank">
+          <img src="{{ event.googlemaps_image_url }}" alt="{{ event.address }}" />
+        </a>
+      </div>
+      {% endif %}
       <dl>
         <dt>日時</dt>
         <dd>{{ event.started_at }} - {{ event.ended_at }}</dd>

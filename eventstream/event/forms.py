@@ -22,7 +22,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ('user','participants')
+        exclude = ('user','participants', 'lat', 'lng', 'created_at')
 
 class ParticipateForm(forms.ModelForm):
     is_cancelled=forms.BooleanField(widget=forms.HiddenInput, required=False)
