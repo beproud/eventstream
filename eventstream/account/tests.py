@@ -13,5 +13,4 @@ class AccountTestCase(TestCase):
             email='user1@example.com',
             password='password1',
             openid_url='http://example.com/user1/',
-            nickname='nick1'
         )
