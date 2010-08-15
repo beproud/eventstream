@@ -1,17 +1,29 @@
-# -*- coding:utf-8 -*-
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, redirect
-from django.utils.functional import wraps
+#:coding=utf-8:
 
-from event.models import Event
+from django.shortcuts import get_object_or_404
 
+from models import Event
 
-def owner_required(func):
-    """指定イベントの主催者によるアクセスかチェック
+def event_view(f):
     """
-    def _inner(request, event_id, *args, **kwargs):
+    イベントオブジェクトを取得
+    存在しない場合は、404 Not Found を返す
+    """
+    def _wrapped(request, event_id, *args, **kwargs):
         event = get_object_or_404(Event, pk=event_id)
-        if request.account == event.user:
-            return func(request, event, *args, **kwargs)
-        return redirect(reverse('core:index'))
-    return wraps(func)(_inner)
+        return f(request, event, *args, **kwargs)
+    return _wrapped
+    
+def owner_required(f):
+    """
+    イベントオーナーかどうかをチェック
+    オーナーじゃない場合は、 403 Forbidden を返す
+
+    @event_view と @account_required は必須
+    """
+    def _wrapped(request, event, *args, **kwargs):
+        if request.account != event.user:
+            # TODO: Forbidden Page
+            return HttpResponseForbidden()
+        return f(request, event, *args, **kwargs)
+    return _wrapped

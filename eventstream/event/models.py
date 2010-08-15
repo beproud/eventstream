@@ -5,17 +5,24 @@ from django.db import models
 
 from account.models import Account
 
+__all__ = (
+    'Event',
+    'Participation',
+)
 
 class EventManager(models.Manager):
-    """イベントマネージャ
+    """
+    イベントマネージャ
     """
     def by_account(self, account):
-        """指定アカウント主催のイベント取得
+        """
+        指定アカウント主催のイベント取得
         """
         return self.filter(user=account)
 
 class Event(models.Model):
-    """イベントモデル
+    """
+    イベントモデル
     """
     objects = EventManager()
 
@@ -30,6 +37,18 @@ class Event(models.Model):
     started_at = models.DateTimeField(u'開始日時', default=datetime.now)
     ended_at = models.DateTimeField(u'終了日時', default=datetime.now)
 
+    participants = models.ManyToManyField(
+        Account,
+        verbose_name=u"参加者",
+        through="Participation",
+        related_name="user_events",
+        blank=True,
+        null=True,
+    )
+    # TODO: 正規 参加者
+    # TODO: キャンセル待ち
+    # TODO: キャンセルリスト
+
     @models.permalink
     def get_absolute_url(self):
         return ('event:detail', (self.id,), {}) 
@@ -40,3 +59,19 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u'%s: %s' % (self.id, self.name)
+
+class Participation(models.Model):
+    user = models.ForeignKey(Account, verbose_name=u"参加者")
+    event = models.ForeignKey(Event, verbose_name=u"イベント")
+    comment = models.TextField(u'コメント', max_length=1000, blank=True)
+    is_cancelled = models.BooleanField(u"キャンセル？", default=False)
+    
+    ctime = models.DateTimeField(u'作成日時', default=datetime.now, db_index=True)
+    utime = models.DateTimeField(u'更新日時', auto_now=True, db_index=True)
+
+    class Meta:
+        db_table = 'event_participation'
+        verbose_name = verbose_name_plural = u'イベント参加'
+
+    def __unicode__(self):
+        return u'%s (%s)' % (self.event, self.user)

@@ -7,4 +7,5 @@ urlpatterns = patterns(
     url(r'^(?P<event_id>\d+)$', 'detail', name='detail'),
     url(r'^(?P<event_id>\d+)/edit$', 'edit', name='edit'),
     url(r'^(?P<event_id>\d+)/delete$', 'delete', name='delete'),
-    )
+    url(r'^(?P<event_id>\d+)/participate$', 'participate', name='participate'),
+)

@@ -26,9 +26,28 @@
 
 <div>{{ body }}</div>
 
-{# TOOD: 所有者のみチェック #}
+{% if request.account == event.user %}
 <a href="{% url event:edit event.id %}">編集</a> |
 <a href="{% url event:delete event.id %}">削除</a>
-{# ENDTODO #}
+{% endif %}
+
+<h2>参加者</h2>
+
+<div class="participants">
+  {% for participant in event.participation_set.all %}
+  <div class="participant">
+    {{ forloop.counter }}. <span class="username">{{ participant.user.username }}</span>
+    <div class="comment">{{ participant.comment }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if request.account not in event.participants.all %}
+<form action="{% url event:participate event.id %}" method="POST">
+  {{ participate_form.as_p }}
+  <input type="submit" name="participate" value="参加"/>
+  {% csrf_token %}
+</form>
+{% endif %}
 
 {% endblock %}

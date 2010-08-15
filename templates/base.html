@@ -3,7 +3,10 @@
 {% block title %}Event Stream{% endblock %}
 
 {% block body %}
-{% block header %}{% endblock %}
+{% block header %}
+{% if request.account %}{{ request.account.username }} | <a href="{% url auth:logout %}">ログアウト</a>{% else %}<a href="{% url auth:login %}">ログイン</a>{% endif %} |
+<a href="{% url event:create %}">イベント新規作成</a>
+{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}{% endblock %}
 {% endblock %}

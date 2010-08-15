@@ -37,10 +37,15 @@ def verify(request):
         return redirect('/')
     return HttpResponseBadRequest(u'bad openid')
 
-@login_required
+#@login_required
 def logout(request):
     """
     ログアウトページ
     """
-    del request.session[AUTHINFO_SESSION_KEY]
-    return direct_to_template(request, 'auth/logout.html')
+    request.session.flush()
+    if hasattr(request, "account"):
+        request.account = None
+    if hasattr(request, "authinfo"):
+        request.authinfo = None
+    return redirect('core:index')
+    #return direct_to_template(request, 'auth/logout.html')
