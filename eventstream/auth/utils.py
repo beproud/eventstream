@@ -22,7 +22,7 @@ def get_openid_realm():
     return 'http://%s/' % settings.DOMAIN
 
 def get_openid_verify_url():
-    return 'http://%s%s' % (settings.DOMAIN, reverse('auth_verify'))
+    return 'http://%s%s' % (settings.DOMAIN, reverse('auth:verify'))
 
 def get_openid_request(openid_url):
     """

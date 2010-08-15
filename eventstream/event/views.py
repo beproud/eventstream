@@ -17,9 +17,9 @@ def create(request):
 
     if request.method == 'POST' and frm.is_valid():
         event = frm.save(commit=False)
-        event.user = request.user  #TODO: ログインユーザーのアカウントにする
+        event.user = request.account #TODO: ログインユーザーのアカウントにする
         event.save()
-        return HttpResponseRedirect(reverse('event_detail', kwargs={'event_id': event.id}))
+        return HttpResponseRedirect(reverse('event:detail', kwargs={'event_id': event.id}))
 
     return direct_to_template(request, 'event/create.html', {
             'frm': frm,

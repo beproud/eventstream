@@ -142,7 +142,7 @@ import logging
 GLOBAL_LOG_LEVEL = logging.WARNING
 GLOBAL_LOG_HANDLERS = [DatabaseHandler()] # takes any Handler object that Python's logging takes
 
-DOMAIN = 'example.com'
+DOMAIN = 'localhost:8000'
 
 import tempfile
 OPENID_STORE_DIR = tempfile.mkdtemp()
