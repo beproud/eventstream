@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 
 GOOGLE_MAPS_API_KEY = getattr(settings, 'GOOGLE_MAPS_API_KEY', '')
-GOOGLE_MAPS_STATIC_IMAGE = 'http://maps.google.com/staticmap?zoom=%(zoom)s&center=%(lat)s,%(lng)s&size=%(size)'
+GOOGLE_MAPS_STATIC_IMAGE = 'http://maps.google.com/staticmap?zoom=%(zoom)s&center=%(lat)s,%(lng)s&size=%(size)s'
 GOOGLE_MAPS_SEARCH = 'http://maps.google.com/?q=%(lat)s,%(lng)s(%(address)s)&z=%(zoom)s'
 MAPS_IMAGE_SIZE_DEFAULT = getattr(settings, 'MAPS_IMAGE_SIZE_DEFAULT', (185, 185))
 
@@ -32,9 +32,12 @@ def get_static_image_url(lat, lng, zoom=15, size=None):
         'lat': lat,
         'lng': lng,
         'zoom': zoom or '',
-        'size': size or MAPS_IMAGE_SIZE_DEFAULT,
+        'size': size or '%dx%d' % MAPS_IMAGE_SIZE_DEFAULT,
     }
-    return GOOGLE_MAPS_STATIC_IMAGE % params
+    url = GOOGLE_MAPS_STATIC_IMAGE % params
+    if GOOGLE_MAPS_API_KEY:
+        url += '&key=%s' % GOOGLE_MAPS_API_KEY
+    return url
 
 def get_search_url(lat, lng, address, zoom=17):
     """
