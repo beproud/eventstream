@@ -51,8 +51,7 @@ class EventManager(models.Manager):
     def new_events(self):
         """最新登録されたイベントを作成日時が古い順に取得
         """
-        #TODO:order_by('-created_at')
-        return self.all().order_by('started_at')
+        return self.all().order_by('-created_at')
 
 class Event(models.Model):
     """
